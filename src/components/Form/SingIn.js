@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import TextField from './TextField.js';
 import Button from './Button.js';
+import useHttp from '../../hooks/http.hook.js';
+import AuthContext from '../../context/AuthContext.js';
 
 const schema = Yup.object().shape({
   username: Yup.string().required('Введите логин'),
   password: Yup.string().required('Введите пароль'),
 });
 
-export default function LoginForm() {
+export default function SingIn() {
+  const auth = useContext(AuthContext);
+  const { loading, request, error, clearError } = useHttp();
+
   return (
     <Formik
       initialValues={{
@@ -18,11 +23,16 @@ export default function LoginForm() {
         password: '',
       }}
       validationSchema={schema}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={async (values) => {
+        try {
+          const { data } = await request('/api/v1/login', { ...values });
+          auth.login(data.token, data.userId);
+        } catch (e) {
+          console.log(e);
+        }
       }}
     >
-      {() => (
+      {({ isSubmitting }) => (
         <>
           <Form>
             <h1 className="mb-4">Войти</h1>
@@ -40,7 +50,7 @@ export default function LoginForm() {
                 placeholder="Пароль"
               />
             </div>
-            <Button text="Войти" />
+            <Button text="Войти" isSubmitting={isSubmitting} />
           </Form>
         </>
       )}
