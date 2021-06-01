@@ -35,3 +35,5 @@ rules:
   import/no-extraneous-dependencies: 0
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
   linebreak-style: 0
+  react/jsx-props-no-spreading: 0
+  object-curly-newline: 0
