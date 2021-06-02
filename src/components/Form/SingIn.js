@@ -26,7 +26,7 @@ export default function SingIn() {
       onSubmit={async (values) => {
         try {
           const { data } = await request('/api/v1/login', { ...values });
-          auth.login(data.token, data.userId);
+          auth.login(data.token, data.username);
         } catch (e) {
           console.log(e);
         }

@@ -5,7 +5,7 @@ import AuthContext from './context/AuthContext.js';
 import { useRoutes } from './routes.js';
 
 export default function App() {
-  const { token, login, logout, userId, ready } = useAuth();
+  const { token, login, logout, username, ready } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
 
@@ -15,7 +15,7 @@ export default function App() {
         token,
         login,
         logout,
-        userId,
+        username,
         isAuthenticated,
       }}
     >

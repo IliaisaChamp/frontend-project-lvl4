@@ -10,9 +10,9 @@ const useHttp = () => {
       setLoading(true);
       try {
         const response = await axios.post(url, body);
-        console.log(response);
+  
         if (!response.statusText) {
-          throw new Error(response.messages || 'Что-то пошло не так');
+          throw new Error(response.messages); // ?????? проверить сообщение с сервера || 'Что-то пошло не так'
         }
 
         setLoading(false);
