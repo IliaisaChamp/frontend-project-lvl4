@@ -5,12 +5,9 @@ root: true
 plugins:
   - functional
   - react
-  - prettier
 
 extends:
   - airbnb
-  - "prettier"
-  - "prettier/react"
   - "plugin:react/recommended"
   - "plugin:functional/external-recommended"
   - "plugin:functional/recommended"
@@ -43,5 +40,3 @@ rules:
   linebreak-style: 0
   react/jsx-props-no-spreading: 0
   object-curly-newline: 0
-  prettier/prettier: error
-  react/state-in-constructor: 0

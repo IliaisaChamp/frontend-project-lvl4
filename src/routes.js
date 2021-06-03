@@ -4,13 +4,13 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
 import NotFound from './pages/NotFound.js';
-import Main from './pages/Main.js';
+import Chat from './pages/Chat.js';
 
 export function useRoutes(isAuthenticated) {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route exact path="/" component={Main} />
+        <Route exact path="/" component={Chat} />
         <Redirect to="/" />
       </Switch>
     );
