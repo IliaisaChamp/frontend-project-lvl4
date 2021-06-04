@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import useAuth from './hooks/auth.hook.js';
 import AuthContext from './context/AuthContext.js';
 import { useRoutes } from './routes.js';
 
 export default function App() {
-  const { token, login, logout, username, ready } = useAuth();
+  const { token, login, logout, username } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
 

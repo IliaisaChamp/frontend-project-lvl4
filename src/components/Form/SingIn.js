@@ -14,7 +14,7 @@ const schema = Yup.object().shape({
 
 export default function SingIn() {
   const auth = useContext(AuthContext);
-  const { loading, request, error, clearError } = useHttp();
+  const { request } = useHttp();
 
   return (
     <Formik

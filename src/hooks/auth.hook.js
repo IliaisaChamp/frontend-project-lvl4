@@ -7,15 +7,16 @@ const useAuth = () => {
   const [ready, setReady] = useState(false);
   const [username, setUsername] = useState(null);
 
+  // eslint-disable-next-line no-shadow
   const login = useCallback((jwtToken, username) => {
     setToken(jwtToken);
     setUsername(username);
     localStorage.setItem(
       storageName,
       JSON.stringify({
-        username: username,
+        username,
         token: jwtToken,
-      })
+      }),
     );
   }, []);
 
