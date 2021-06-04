@@ -1,6 +1,10 @@
 // @ts-check
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { Provider } from 'react-redux';
+import store from './store/index.js';
+
 import App from './App.js';
 
 import 'core-js/stable/index.js';
@@ -13,8 +17,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('chat'),
 );
