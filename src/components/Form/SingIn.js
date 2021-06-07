@@ -25,30 +25,19 @@ export default function SingIn() {
       validationSchema={schema}
       onSubmit={async (values) => {
         try {
-          const { data } = await request('/api/v1/login', { ...values });
+          const { data } = await request('/api/v1/login', 'POST', { ...values });
           auth.login(data.token, data.username);
         } catch (e) {
           console.log(e);
         }
-      }}
-    >
+      }}>
       {({ isSubmitting }) => (
         <>
           <Form>
             <h1 className="mb-4">Войти</h1>
             <div className="col mb-3">
-              <TextField
-                label="Ваш ник"
-                name="username"
-                type="text"
-                placeholder="Ваш ник"
-              />
-              <TextField
-                label="Пароль"
-                name="password"
-                type="password"
-                placeholder="Пароль"
-              />
+              <TextField label="Ваш ник" name="username" type="text" placeholder="Ваш ник" />
+              <TextField label="Пароль" name="password" type="password" placeholder="Пароль" />
             </div>
             <Button text="Войти" isSubmitting={isSubmitting} />
           </Form>

@@ -6,7 +6,7 @@ const useHttp = () => {
   const [error, setError] = useState(null);
 
   const request = useCallback(
-    async (url, method = 'POST', body = null, token = null, headers = {}) => {
+    async (url, method, body, token = null, headers = { 'Content-Type': 'application/json' }) => {
       setLoading(true);
       if (token) {
         // eslint-disable-next-line no-param-reassign
@@ -16,8 +16,8 @@ const useHttp = () => {
         const response = await axios({
           method,
           url,
-          body,
-          headers: { 'Content-Type': 'application/json', ...headers },
+          data: body,
+          headers,
         });
 
         if (!response.statusText) {
