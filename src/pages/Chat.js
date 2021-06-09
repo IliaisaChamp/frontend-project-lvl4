@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect, useCallback, useState } from 'react';
 import { Row, Container } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import Main from '../components/Chat/Main/Body.js';
+import { useDispatch, connect } from 'react-redux';
+import ChatBody from '../components/Chat/Main/Body.js';
 import Channels from '../components/Chat/Channels/Channels.js';
 import useHttp from '../hooks/http.hook.js';
 import AuthContext from '../context/AuthContext.js';
 import { getChannels } from '../store/channels.js';
 
-export default function Chat() {
+function Chat({ currentChannelId, channels }) {
   const { request } = useHttp();
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
@@ -23,14 +23,37 @@ export default function Chat() {
     }
   }, [fetchChannels]);
 
+  const name = useChannelName(channels, currentChannelId);
+
   return (
     <Row className="h-100 align-items-center">
       <Container>
         <Row className="chat bg-white">
           <Channels />
-          <Main />
+          <ChatBody name={name} currentChannelId={currentChannelId} />
         </Row>
       </Container>
     </Row>
   );
 }
+
+function useChannelName(channels, currentChannelId) {
+  const [channelName, setChannelName] = useState('');
+  useEffect(() => {
+    const [chat] = channels.filter((channel) => channel.id === currentChannelId);
+    if (chat) {
+      setChannelName(chat.name);
+    }
+  }, [currentChannelId]);
+  return channelName;
+}
+
+const mapStateToProps = (state) => {
+  const { channelsInfo } = state;
+  return {
+    channels: channelsInfo.channels,
+    currentChannelId: channelsInfo.currentChannelId,
+  };
+};
+
+export default connect(mapStateToProps)(Chat);

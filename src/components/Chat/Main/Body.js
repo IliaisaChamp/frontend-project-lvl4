@@ -1,23 +1,20 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { Row, Col } from 'react-bootstrap';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 
 import Header from './Header.js';
-import Message from './Message.js';
 import Form from './Form.js';
 import './styles.scss';
 import AuthContext from '../../../context/AuthContext.js';
 import { getMessages } from '../../../store/messages.js';
+import Messages from './Messages.js';
 
-function ChatBody({ channels, messages }) {
+function ChatBody({ name, messages, currentChannelId }) {
   const dispatch = useDispatch();
   const { username } = useContext(AuthContext);
-  const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const [arrivalMessage, setArrivalMessage] = useState();
-
-  const count = useMessagesCount(messages, currentChannelId);
-  const channelName = useChannelName(channels, currentChannelId);
+  const curretnChatMessages = useCurretnChatMessages(messages, currentChannelId);
 
   const socket = useRef();
 
@@ -49,12 +46,8 @@ function ChatBody({ channels, messages }) {
   return (
     <Col sm={9} className="">
       <Row className="flex-column h-100">
-        <Header channelName={channelName} count={count} />
-        <div>
-          {messages.map((m) => (
-            <Message text={m.body} user={m.username} key={m.id} />
-          ))}
-        </div>
+        <Header channelName={name} count={curretnChatMessages.length} />
+        <Messages messages={curretnChatMessages} currentChannelId={currentChannelId} />
         <Form handleSendMessage={handleSendMessage} />
       </Row>
     </Col>
@@ -62,31 +55,20 @@ function ChatBody({ channels, messages }) {
 }
 
 const mapStateToProps = (state) => {
-  const { messagesInfo, channelsInfo } = state;
+  const { messages } = state.messagesInfo;
   return {
-    channels: channelsInfo.channels,
-    messages: messagesInfo.messages,
+    messages,
   };
 };
 
-function useMessagesCount(messages, currentChannelId) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const arr = messages.filter((message) => message.channelId === currentChannelId);
-    setCount(arr.length);
-  }, [messages]);
-  return count;
-}
+function useCurretnChatMessages(messages, currentChannelId) {
+  const [currentMessages, setCurrentMessages] = useState([]);
 
-function useChannelName(channels, currentChannelId) {
-  const [channelName, setChannelName] = useState('');
   useEffect(() => {
-    const [chat] = channels.filter((channel) => channel.id === currentChannelId);
-    if (chat) {
-      setChannelName(chat.name);
-    }
-  }, [currentChannelId]);
-  return channelName;
-}
+    const arr = messages.filter((m) => +m.channelId === currentChannelId);
+    setCurrentMessages(arr);
+  }, [messages, currentChannelId]);
 
+  return currentMessages;
+}
 export default connect(mapStateToProps)(ChatBody);

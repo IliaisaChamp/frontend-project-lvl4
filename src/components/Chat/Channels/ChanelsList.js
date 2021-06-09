@@ -12,7 +12,7 @@ function ChanelButton({ channels }) {
 
   const mapingChanels = (data) => {
     const channelsList = data.map((channel) => (
-      <Nav.Item key={channel.id} data-id={channel.id} onClick={() => handleToggle(channel.id)}>
+      <Nav.Item key={channel.id} onClick={() => handleToggle(channel.id)}>
         <Nav.Link eventKey={channel.id} className="w-100">
           {channel.name}
         </Nav.Link>
