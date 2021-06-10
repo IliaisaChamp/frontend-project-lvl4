@@ -1,0 +1,14 @@
+.channel {
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-item {
+    cursor: pointer;
+  }
+  &-link {
+    display: flex;
+    justify-content: space-between;
+  }
+}

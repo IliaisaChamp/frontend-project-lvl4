@@ -51,7 +51,6 @@ export default (app, defaultState = {}) => {
         id: getNextId(),
       };
       state.messages.push(messageWithId);
-      console.log(state.messages);
       acknowledge({ status: 'ok' });
       app.io.emit('newMessage', messageWithId);
     });
@@ -88,6 +87,7 @@ export default (app, defaultState = {}) => {
       acknowledge({ status: 'ok' });
       app.io.emit('renameChannel', channel);
     });
+    console.log(state.channels);
   });
 
   app.post('/api/v1/login', async (req, reply) => {
