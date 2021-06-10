@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import useAuth from './hooks/auth.hook.js';
 import AuthContext from './context/AuthContext.js';
 import { useRoutes } from './routes.js';
+import Nav from './components/Navbar/Navbar.js';
 
 export default function App() {
   const { token, login, logout, username } = useAuth();
@@ -19,7 +21,10 @@ export default function App() {
         isAuthenticated,
       }}
     >
-      <Router>{routes}</Router>
+      <div className="d-flex flex-column h-100">
+        <Nav isAuthenticated={isAuthenticated} logout={logout} />
+        <Router>{routes}</Router>
+      </div>
     </AuthContext.Provider>
   );
 }

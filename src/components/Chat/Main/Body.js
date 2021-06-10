@@ -65,7 +65,7 @@ function useCurretnChatMessages(messages, currentChannelId) {
   const [currentMessages, setCurrentMessages] = useState([]);
 
   useEffect(() => {
-    const arr = messages.filter((m) => +m.channelId === currentChannelId);
+    const arr = messages.filter((m) => (+m.channelId ? +m.channelId === currentChannelId : []));
     setCurrentMessages(arr);
   }, [messages, currentChannelId]);
 

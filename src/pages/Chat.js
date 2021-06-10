@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
-import { Row, Container } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useDispatch, connect } from 'react-redux';
 import ChatBody from '../components/Chat/Main/Body.js';
 import Channels from '../components/Chat/Channels/Channels.js';
@@ -26,13 +26,9 @@ function Chat({ currentChannelId, channels }) {
   const name = useChannelName(channels, currentChannelId);
 
   return (
-    <Row className="h-100 align-items-center">
-      <Container>
-        <Row className="chat bg-white">
-          <Channels />
-          <ChatBody name={name} currentChannelId={currentChannelId} />
-        </Row>
-      </Container>
+    <Row className="chat bg-white p-0">
+      <Channels />
+      <ChatBody name={name} currentChannelId={currentChannelId} />
     </Row>
   );
 }

@@ -18,6 +18,7 @@ export default function Channels() {
 
   const handleClose = () => {
     dispatch(setOpened(false));
+    dispatch(setType(null));
   };
 
   const handleShow = (modalType) => {
@@ -39,20 +40,22 @@ export default function Channels() {
       switch (type) {
         case 'renameChannel':
           dispatch(updateChannels(channel));
-          dispatch(setOpened(false));
+          // dispatch(setOpened(false));
           break;
         case 'newChannel':
           dispatch(addChannel(channel));
-          dispatch(setOpened(false));
+          // dispatch(setOpened(false));
           break;
         case 'removeChannel':
           dispatch(removeChannel(channel));
-          dispatch(setOpened(false));
+          // dispatch(setOpened(false));
           break;
         default:
           break;
       }
     });
+    dispatch(setOpened(false));
+    dispatch(setType(null));
   }, [value]);
 
   return (
