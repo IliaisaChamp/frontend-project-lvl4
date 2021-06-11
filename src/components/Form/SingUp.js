@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import TextField from './TextField.js';
 import Button from './Button.js';
@@ -11,6 +12,7 @@ export default function SingUp() {
   const schema = useValidateSchema();
   const { request } = useHttp();
   const auth = useContext(AuthContext);
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -34,18 +36,28 @@ export default function SingUp() {
       {({ isSubmitting }) => (
         <>
           <Form>
-            <h1 className="mb-4">Войти</h1>
+            <h1 className="mb-4">{t('form.title_reg')}</h1>
             <div className="col mb-3">
-              <TextField label="Ваш ник" name="username" type="text" placeholder="Ваш ник" />
-              <TextField label="Пароль" name="password" type="password" placeholder="Пароль" />
               <TextField
-                label="Подтвердите пароль"
+                label={t('form.name')}
+                name="username"
+                type="text"
+                placeholder={t('form.name')}
+              />
+              <TextField
+                label={t('form.password')}
+                name="password"
+                type="password"
+                placeholder={t('form.password')}
+              />
+              <TextField
+                label={t('form.confirm')}
                 name="passwordConfirmation"
                 type="password"
-                placeholder="Подтвердите пароль"
+                placeholder={t('form.confirm')}
               />
             </div>
-            <Button text="Зарегистрироваться" isSubmitting={isSubmitting} />
+            <Button text={t('button.reg')} isSubmitting={isSubmitting} />
           </Form>
         </>
       )}
@@ -55,14 +67,14 @@ export default function SingUp() {
 
 function useValidateSchema() {
   const schema = Yup.object().shape({
-    username: Yup.string().required('Обязательное поле'),
-    password: Yup.string()
-      .min(6, 'Ненадежный пароль')
-      .max(20, 'Пароль слишком длинный')
+    username: Yup.string()
+      .min(3, 'От 3 до 20 символов')
+      .max(20, 'От 3 до 20 символов')
       .required('Обязательное поле'),
+    password: Yup.string().min(6, 'Не менее 6 символов').required('Обязательное поле'),
     passwordConfirmation: Yup.string().oneOf(
       [Yup.ref('password'), null],
-      'Пароль должен совпадать',
+      'Пароли должны совпадать',
     ),
   });
 

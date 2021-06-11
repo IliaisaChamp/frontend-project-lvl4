@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import TextField from './TextField.js';
 import Button from './Button.js';
@@ -8,13 +9,14 @@ import useHttp from '../../hooks/http.hook.js';
 import AuthContext from '../../context/AuthContext.js';
 
 const schema = Yup.object().shape({
-  username: Yup.string().required('Введите логин'),
-  password: Yup.string().required('Введите пароль'),
+  username: Yup.string(),
+  password: Yup.string(),
 });
 
 export default function SingIn() {
   const auth = useContext(AuthContext);
   const { request } = useHttp();
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -30,16 +32,27 @@ export default function SingIn() {
         } catch (e) {
           console.log(e);
         }
-      }}>
+      }}
+    >
       {({ isSubmitting }) => (
         <>
           <Form>
-            <h1 className="mb-4">Войти</h1>
+            <h1 className="mb-4">{t('form.title')}</h1>
             <div className="col mb-3">
-              <TextField label="Ваш ник" name="username" type="text" placeholder="Ваш ник" />
-              <TextField label="Пароль" name="password" type="password" placeholder="Пароль" />
+              <TextField
+                label={t('form.name')}
+                name="username"
+                type="text"
+                placeholder={t('form.name')}
+              />
+              <TextField
+                label={t('form.password')}
+                name="password"
+                type="password"
+                placeholder={t('form.password')}
+              />
             </div>
-            <Button text="Войти" isSubmitting={isSubmitting} />
+            <Button text={t('button.go')} isSubmitting={isSubmitting} />
           </Form>
         </>
       )}

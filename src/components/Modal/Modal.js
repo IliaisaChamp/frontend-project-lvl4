@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Modal, Alert } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import Input from './Input.js';
 import Button from './ModalButton.js';
@@ -12,6 +13,7 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
   const { channels } = useSelector((state) => state.channelsInfo);
   const { type } = useSelector((state) => state.modal);
   const title = useTitle(type);
+  const { t } = useTranslation();
 
   const handleDelete = () => updateValue();
 
@@ -44,13 +46,17 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" text="Отменить" handleClose={handleClose} />
+              <Button
+                variant="secondary"
+                text={t('button.cancel')}
+                handleClose={handleClose}
+              />
               {type !== 'removeChannel' ? (
-                <Button variant="primary" text="Подтвердить" type="submit" />
+                <Button variant="primary" text={t('button.send')} type="submit" />
               ) : (
                 <Button
                   variant="danger"
-                  text="Подтвердить"
+                  text={t('button.send')}
                   type="button"
                   handleDelete={handleDelete}
                 />
@@ -76,16 +82,18 @@ function isUnique(newName, channels) {
 
 function useTitle(type) {
   const [title, setTitle] = useState('');
+  const { t } = useTranslation();
+
   useEffect(() => {
     switch (type) {
       case 'renameChannel':
-        setTitle('Переименовать канал');
+        setTitle(t('modal.title_rename'));
         break;
       case 'removeChannel':
-        setTitle('Удалить канал');
+        setTitle(t('modal.title_delete'));
         break;
       default:
-        setTitle('Добавить канал');
+        setTitle(t('modal.title'));
         break;
     }
   }, [type]);

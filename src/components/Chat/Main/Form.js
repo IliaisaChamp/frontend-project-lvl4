@@ -1,9 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
-
+import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 
 export default function SendMessage({ handleSendMessage }) {
+  const { t } = useTranslation();
+
   return (
     <div className="border-top mt-auto py-3 px-5">
       <Formik
@@ -23,6 +25,7 @@ export default function SendMessage({ handleSendMessage }) {
                 onBlur={props.handleBlur}
                 value={props.values.text}
                 name="text"
+                placeholder={t('form.message')}
               />
               <Button variant="outline-secondary" id="button-addon2" type="sybmit">
                 Button
