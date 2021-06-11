@@ -25,13 +25,18 @@ export default function SingIn() {
         password: '',
       }}
       validationSchema={schema}
-      onSubmit={async (values, { setSubmitting }) => {
+      onSubmit={async (values, { setErrors, setSubmitting }) => {
         setSubmitting(false);
         try {
           const { data } = await request('/api/v1/login', 'POST', { ...values });
           auth.login(data.token, data.username);
         } catch (e) {
-          console.log(e);
+          if (e.response.status === 401) {
+            setErrors({
+              username: t('form.errors.401'),
+              password: t('form.errors.401'),
+            });
+          }
         }
         setSubmitting(true);
       }}

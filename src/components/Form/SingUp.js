@@ -22,14 +22,14 @@ export default function SingUp() {
         passwordConfirmation: '',
       }}
       validationSchema={schema}
-      onSubmit={async (values, { setFieldError, setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting, setFieldError }) => {
         setSubmitting(false);
         try {
           const { data } = await request('/api/v1/signup', 'POST', { ...values });
           auth.login(data.token, data.username);
         } catch (e) {
           if (e.response.status === 409) {
-            setFieldError('username', 'Такой пользователь уже существует');
+            setFieldError('username', t('form.errors.409'));
           }
         }
         setSubmitting(true);
