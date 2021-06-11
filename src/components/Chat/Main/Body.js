@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { Row, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import { useDispatch, connect } from 'react-redux';
 
 import Header from './Header.js';
@@ -44,12 +44,12 @@ function ChatBody({ name, messages, currentChannelId }) {
   }, [arrivalMessage]);
 
   return (
-    <Col sm={9} className="">
-      <Row className="flex-column h-100">
+    <Col sm={9} className="h-100 p-0">
+      <div className="d-flex flex-column h-100">
         <Header channelName={name} count={curretnChatMessages.length} />
         <Messages messages={curretnChatMessages} currentChannelId={currentChannelId} />
         <Form handleSendMessage={handleSendMessage} />
-      </Row>
+      </div>
     </Col>
   );
 }

@@ -15,11 +15,17 @@ function ChanelButton({ channels, handleShow }) {
       <Nav.Item key={channel.id} onClick={() => handleToggle(channel.id)} className="channel-item">
         {!channel.removable ? (
           <Nav.Link eventKey={channel.id} className="w-100 channel-link d-flex p-2" as="div">
-            {channel.name}
+            <div>
+              <span className="me-3">#</span>
+              {channel.name}
+            </div>
           </Nav.Link>
         ) : (
           <Nav.Link eventKey={channel.id} className="w-100 channel-link d-flex p-2" as="div">
-            <div>{channel.name}</div>
+            <div>
+              <span className="me-3">#</span>
+              {channel.name}
+            </div>
             <Dropdown as={ButtonGroup} className="">
               <Dropdown.Toggle variant="" className="flex-grow-0 p-0" />
               <Dropdown.Menu>

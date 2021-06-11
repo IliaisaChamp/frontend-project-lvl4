@@ -60,8 +60,8 @@ export default function Channels() {
 
   return (
     <>
-      <Col sm={3} className="p-0 border-end">
-        <Card.Header className="channel-header">
+      <Col sm={3} className="p-0 border-end bg-light">
+        <Card.Header className="channel-header py-4 px-3 border-0 bg-light">
           Каналы
           <Button variant="outline-info" onClick={() => handleShow('newChannel')}>
             &#43;
