@@ -29,8 +29,8 @@ function ChanelButton({ channels, handleShow }) {
             <Dropdown as={ButtonGroup} className="">
               <Dropdown.Toggle variant="" className="flex-grow-0 p-0" />
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleShow('removeChannel')}>Удалить</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleShow('renameChannel')}>
+                <Dropdown.Item onClick={(e) => handleShow('removeChannel', e)}>Удалить</Dropdown.Item>
+                <Dropdown.Item onClick={(e) => handleShow('renameChannel', e)}>
                   Переименовать
                 </Dropdown.Item>
               </Dropdown.Menu>

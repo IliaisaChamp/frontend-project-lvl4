@@ -14,14 +14,14 @@ export default function Channels() {
   const dispatch = useDispatch();
   const { isOpened, type } = useSelector((state) => state.modal);
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('');
 
   const handleClose = () => {
-    dispatch(setOpened(false));
     dispatch(setType(null));
+    dispatch(setOpened(false));
   };
 
-  const handleShow = (modalType) => {
+  const handleShow = (modalType, e) => {
     dispatch(setOpened(true));
     dispatch(setType(modalType));
   };
@@ -36,24 +36,25 @@ export default function Channels() {
   }, []);
 
   useEffect(() => {
-    socket.current.on(type, (channel) => {
-      switch (type) {
-        case 'renameChannel':
+    switch (type) {
+      case 'renameChannel':
+        socket.current.on(type, (channel) => {
           dispatch(updateChannels(channel));
-          // dispatch(setOpened(false));
-          break;
-        case 'newChannel':
-          dispatch(addChannel(channel));
-          // dispatch(setOpened(false));
-          break;
-        case 'removeChannel':
+        });
+        break;
+      case 'removeChannel':
+        socket.current.on(type, (channel) => {
           dispatch(removeChannel(channel));
-          // dispatch(setOpened(false));
-          break;
-        default:
-          break;
-      }
-    });
+        });
+        break;
+      case 'newChannel':
+        socket.current.once(type, (channel) => {
+          dispatch(addChannel(channel));
+        });
+        break;
+      default:
+        break;
+    }
     dispatch(setOpened(false));
     dispatch(setType(null));
   }, [value]);
@@ -63,7 +64,7 @@ export default function Channels() {
       <Col sm={3} className="p-0 border-end bg-light">
         <Card.Header className="channel-header py-4 px-3 border-0 bg-light">
           Каналы
-          <Button variant="outline-info" onClick={() => handleShow('newChannel')}>
+          <Button variant="outline-info" onClick={(e) => handleShow('newChannel', e)}>
             &#43;
           </Button>
         </Card.Header>
@@ -80,6 +81,7 @@ function sendSocket(socket, type, value, id) {
       socket.current.emit(type, { ...value, id });
       break;
     case 'newChannel':
+      console.log('newChannel from sendSoket');
       socket.current.emit(type, { ...value });
       break;
     case 'removeChannel':

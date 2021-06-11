@@ -9,7 +9,6 @@ export default function ModalButton({
   handleClose = null,
   isSubmitting,
 }) {
-  console.log(isSubmitting);
   return (
     <Button
       variant={variant}

@@ -15,7 +15,7 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
   const title = useTitle(type);
   const { t } = useTranslation();
 
-  const handleDelete = () => updateValue();
+  const handleDelete = () => updateValue('delete');
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -31,6 +31,7 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
           setSubmitting(false);
           if (isUnique(values.name, channels)) {
             setFieldError('name', 'Канал с таким названием уже есть');
+            setSubmitting(true);
           } else {
             updateValue(values);
             resetForm();
