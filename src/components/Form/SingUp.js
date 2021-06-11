@@ -22,7 +22,8 @@ export default function SingUp() {
         passwordConfirmation: '',
       }}
       validationSchema={schema}
-      onSubmit={async (values, { setFieldError }) => {
+      onSubmit={async (values, { setFieldError, setSubmitting }) => {
+        setSubmitting(false);
         try {
           const { data } = await request('/api/v1/signup', 'POST', { ...values });
           auth.login(data.token, data.username);
@@ -31,6 +32,7 @@ export default function SingUp() {
             setFieldError('username', 'Такой пользователь уже существует');
           }
         }
+        setSubmitting(true);
       }}
     >
       {({ isSubmitting }) => (

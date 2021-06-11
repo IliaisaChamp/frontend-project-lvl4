@@ -7,9 +7,16 @@ export default function ModalButton({
   type,
   handleDelete = null,
   handleClose = null,
+  isSubmitting,
 }) {
+  console.log(isSubmitting);
   return (
-    <Button variant={variant} onClick={handleClose || handleDelete} type={type}>
+    <Button
+      variant={variant}
+      onClick={handleClose || handleDelete}
+      type={type}
+      disabled={isSubmitting}
+    >
       {text}
     </Button>
   );

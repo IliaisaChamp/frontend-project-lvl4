@@ -27,16 +27,18 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
           name: '',
         }}
         validationSchema={validateSchema}
-        onSubmit={(values, { setFieldError, resetForm }) => {
+        onSubmit={(values, { setFieldError, resetForm, setSubmitting }) => {
+          setSubmitting(false);
           if (isUnique(values.name, channels)) {
             setFieldError('name', 'Канал с таким названием уже есть');
           } else {
             updateValue(values);
             resetForm();
           }
+          setSubmitting(true);
         }}
       >
-        {() => (
+        {({ isSubmitting }) => (
           <Form>
             <Modal.Body>
               {type === 'removeChannel' ? (
@@ -50,15 +52,22 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
                 variant="secondary"
                 text={t('button.cancel')}
                 handleClose={handleClose}
+                isSubmitting={isSubmitting}
               />
               {type !== 'removeChannel' ? (
-                <Button variant="primary" text={t('button.send')} type="submit" />
+                <Button
+                  variant="primary"
+                  text={t('button.send')}
+                  type="submit"
+                  isSubmitting={isSubmitting}
+                />
               ) : (
                 <Button
                   variant="danger"
                   text={t('button.send')}
                   type="button"
                   handleDelete={handleDelete}
+                  isSubmitting={isSubmitting}
                 />
               )}
             </Modal.Footer>

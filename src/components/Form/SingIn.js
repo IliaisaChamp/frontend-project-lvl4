@@ -25,13 +25,15 @@ export default function SingIn() {
         password: '',
       }}
       validationSchema={schema}
-      onSubmit={async (values) => {
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(false);
         try {
           const { data } = await request('/api/v1/login', 'POST', { ...values });
           auth.login(data.token, data.username);
         } catch (e) {
           console.log(e);
         }
+        setSubmitting(true);
       }}
     >
       {({ isSubmitting }) => (
