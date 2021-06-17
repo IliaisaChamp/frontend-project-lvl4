@@ -15,11 +15,9 @@ const channels = createSlice({
       state.currentChannelId = payload.currentChannelId;
     },
     addChannel: (state, { payload }) => {
-      console.log(payload);
       state.channels.push(payload);
     },
     updateChannels: (state, { payload }) => {
-      console.log('updateChannels');
       const channel = state.channels.find((c) => c.id === payload.id);
       if (channel) {
         channel.name = payload.name;

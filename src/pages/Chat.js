@@ -6,6 +6,7 @@ import Channels from '../components/Chat/Channels/Channels.js';
 import useHttp from '../hooks/http.hook.js';
 import AuthContext from '../context/AuthContext.js';
 import { getChannels } from '../store/channels.js';
+import { setFetchedMessages } from '../store/messages.js';
 
 function Chat({ currentChannelId, channels }) {
   const { request } = useHttp();
@@ -14,7 +15,12 @@ function Chat({ currentChannelId, channels }) {
 
   const fetchChannels = useCallback(async (username, token) => {
     const { data } = await request('/api/v1/data', 'GET', { username }, token);
-    dispatch(getChannels(data));
+    const channelsInfo = {
+      channels: data.channels,
+      currentChannelId: data.currentChannelId,
+    };
+    dispatch(getChannels(channelsInfo));
+    dispatch(setFetchedMessages(data.messages));
   }, []);
 
   useEffect(() => {

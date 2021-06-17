@@ -19,6 +19,7 @@ export default function SendMessage({ handleSendMessage }) {
           <form onSubmit={props.handleSubmit}>
             <div className="input-group">
               <input
+                data-testid="new-message"
                 type="text"
                 className="textInput"
                 onChange={props.handleChange}
@@ -27,7 +28,7 @@ export default function SendMessage({ handleSendMessage }) {
                 name="text"
                 placeholder={t('form.message')}
               />
-              <Button variant="" type="sybmit">
+              <Button variant="" type="sybmit" disabled={!props.dirty}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"

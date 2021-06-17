@@ -14,7 +14,6 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
   const { type } = useSelector((state) => state.modal);
   const title = useTitle(type);
   const { t } = useTranslation();
-
   const handleDelete = () => updateValue();
 
   return (
@@ -48,7 +47,12 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
               {type === 'removeChannel' ? (
                 <Alert variant="warning">Вы уверены?</Alert>
               ) : (
-                <Input name="name" type="text" value={values.name} />
+                <Input
+                  name="name"
+                  type="text"
+                  value={values.name}
+                  dataTestid={type === 'renameChannel' ? 'rename-channel' : 'add-channel'}
+                />
               )}
             </Modal.Body>
             <Modal.Footer>
@@ -70,7 +74,6 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
                   variant="danger"
                   text={t('button.send')}
                   type="button"
-                  // handleClose={handleClose}
                   handleDelete={handleDelete}
                   isSubmitting={isSubmitting}
                 />

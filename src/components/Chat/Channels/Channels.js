@@ -62,7 +62,6 @@ export default function Channels() {
         break;
     }
     dispatch(setOpened(false));
-    console.log('setOpened');
     dispatch(setType(null));
   }, [value]);
 
@@ -81,7 +80,6 @@ export default function Channels() {
         show={isOpened}
         handleClose={handleClose}
         updateValue={updateValue}
-        // handleDelete={handleDelete}
       />
     </>
   );
