@@ -5,14 +5,17 @@ export default function ModalButton({
   variant,
   text,
   type,
-  handleDelete = null,
-  handleClose = null,
+  handleDelete = () => {},
+  handleClose = () => {},
   isSubmitting,
 }) {
   return (
     <Button
       variant={variant}
-      onClick={handleClose || handleDelete}
+      onClick={() => {
+        handleDelete();
+        handleClose();
+      }}
       type={type}
       disabled={isSubmitting}
     >

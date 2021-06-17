@@ -26,7 +26,7 @@ function Chat({ currentChannelId, channels }) {
   const name = useChannelName(channels, currentChannelId);
 
   return (
-    <Row className="chat bg-white p-0">
+    <Row className="chat bg-white p-0 overflow-hidden">
       <Channels />
       <ChatBody name={name} currentChannelId={currentChannelId} />
     </Row>

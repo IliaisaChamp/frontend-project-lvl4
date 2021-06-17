@@ -1,4 +1,4 @@
-.channel {
+.channels {
   &-header {
     display: flex;
     align-items: center;
@@ -10,5 +10,8 @@
   &-link {
     display: flex;
     justify-content: space-between;
+  }
+  &-nav {
+    max-height: 90%;
   }
 }

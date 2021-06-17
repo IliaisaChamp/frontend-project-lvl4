@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 
 import { setOpened, setType } from '../../../store/modal.js';
-import { addChannel, updateChannels, removeChannel } from '../../../store/channels.js';
+import {
+  addChannel,
+  updateChannels,
+  removeChannel,
+  setCurrentChannelId,
+} from '../../../store/channels.js';
 import Modal from '../../Modal/Modal.js';
 import ChanelsList from './ChanelsList.js';
 import './channels.scss';
@@ -21,7 +26,7 @@ export default function Channels() {
     dispatch(setOpened(false));
   };
 
-  const handleShow = (modalType, e) => {
+  const handleShow = (modalType) => {
     dispatch(setOpened(true));
     dispatch(setType(modalType));
   };
@@ -50,27 +55,34 @@ export default function Channels() {
       case 'newChannel':
         socket.current.once(type, (channel) => {
           dispatch(addChannel(channel));
+          dispatch(setCurrentChannelId(channel.id));
         });
         break;
       default:
         break;
     }
     dispatch(setOpened(false));
+    console.log('setOpened');
     dispatch(setType(null));
   }, [value]);
 
   return (
     <>
-      <Col sm={3} className="p-0 border-end bg-light">
-        <Card.Header className="channel-header py-4 px-3 border-0 bg-light">
+      <Col sm={3} className="p-0 border-end bg-light h-100">
+        <Card.Header className="channels-header pt-4 px-3 border-0 bg-light">
           Каналы
-          <Button variant="outline-info" onClick={(e) => handleShow('newChannel', e)}>
+          <Button variant="outline-info" onClick={() => handleShow('newChannel')}>
             &#43;
           </Button>
         </Card.Header>
         <ChanelsList handleShow={handleShow} />
       </Col>
-      <Modal show={isOpened} handleClose={handleClose} updateValue={updateValue} />
+      <Modal
+        show={isOpened}
+        handleClose={handleClose}
+        updateValue={updateValue}
+        // handleDelete={handleDelete}
+      />
     </>
   );
 }

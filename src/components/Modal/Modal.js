@@ -10,12 +10,12 @@ import Button from './ModalButton.js';
 
 export default function ChannelsModal({ show, handleClose, updateValue }) {
   const validateSchema = useValidateSchema();
-  const { channels } = useSelector((state) => state.channelsInfo);
+  const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { type } = useSelector((state) => state.modal);
   const title = useTitle(type);
   const { t } = useTranslation();
 
-  const handleDelete = () => updateValue('delete');
+  const handleDelete = () => updateValue();
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -24,28 +24,31 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
       </Modal.Header>
       <Formik
         initialValues={{
-          name: '',
+          name: `${
+            type === 'renameChannel' ? channels.find((c) => c.id === currentChannelId).name : ''
+          }`,
         }}
         validationSchema={validateSchema}
-        onSubmit={(values, { setFieldError, resetForm, setSubmitting }) => {
+        onSubmit={(value, { setFieldError, resetForm, setSubmitting }) => {
           setSubmitting(false);
-          if (isUnique(values.name, channels)) {
+          if (isUnique(value.name, channels)) {
             setFieldError('name', 'Канал с таким названием уже есть');
             setSubmitting(true);
           } else {
-            updateValue(values);
+            updateValue(value);
+            setSubmitting(true);
             resetForm();
           }
           setSubmitting(true);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values }) => (
           <Form>
             <Modal.Body>
               {type === 'removeChannel' ? (
                 <Alert variant="warning">Вы уверены?</Alert>
               ) : (
-                <Input name="name" type="text" />
+                <Input name="name" type="text" value={values.name} />
               )}
             </Modal.Body>
             <Modal.Footer>
@@ -67,6 +70,7 @@ export default function ChannelsModal({ show, handleClose, updateValue }) {
                   variant="danger"
                   text={t('button.send')}
                   type="button"
+                  // handleClose={handleClose}
                   handleDelete={handleDelete}
                   isSubmitting={isSubmitting}
                 />
